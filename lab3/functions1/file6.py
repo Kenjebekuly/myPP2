@@ -1,5 +1,7 @@
-def reverse(s):
-    reversed_str = ""
-    for char in s:
-         reversed_str = char + reversed_str
-         return reversed_str
+def reverse(s): 
+   res = "" 
+   for word in s.split(" "): 
+        res = word + " " + res 
+   return res
+c=str(input())
+print(reverse(c))
