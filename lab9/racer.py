@@ -56,7 +56,8 @@ coin_speed = 4
 
 # Enemy setup
 enemy_speed = 5
-speed_increase_threshold = 5  # Increase speed every N collected coins
+speed_increase_threshold = 5  # Every N coins
+next_speed_increase = 5       # First threshold
 enemies = [{"x": random.choice(lanes), "y": random.randint(-600, -100)} for _ in range(2)]
 
 def draw_window():
@@ -81,10 +82,11 @@ def draw_window():
 
 def reset_game():
     """Reset all game state after crash"""
-    global player_x, collected_coins, enemies, coin, game_over, enemy_speed, coin_value
+    global player_x, collected_coins, enemies, coin, game_over, enemy_speed, coin_value, next_speed_increase
     player_x = lanes[1]
     collected_coins = 0
     enemy_speed = 5
+    next_speed_increase = speed_increase_threshold
     enemies = [{"x": random.choice(lanes), "y": random.randint(-600, -100)} for _ in range(2)]
     coin = {"x": random.choice(lanes), "y": -50}
     coin_value = random.choice(coin_weights)
@@ -131,7 +133,7 @@ while True:
                 drive_sound.stop()
                 game_over = True
 
-        # Move coin
+        # Move coin downward
         coin["y"] += coin_speed
         if coin["y"] > HEIGHT:
             coin["y"] = -50
@@ -148,9 +150,10 @@ while True:
             coin["x"] = random.choice(lanes)
             coin_value = random.choice(coin_weights)
 
-            # Increase enemy speed every N coins
-            if collected_coins % speed_increase_threshold == 0:
-                enemy_speed += 1
+            # Increase enemy speed every N coins (5, 10, 15, ...)
+            if collected_coins >= next_speed_increase:
+                enemy_speed += 2
+                next_speed_increase += speed_increase_threshold
 
         # Draw everything
         draw_window()

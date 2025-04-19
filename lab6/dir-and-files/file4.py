@@ -5,4 +5,4 @@ def count_lines(file_path):
         for line in file:
             counter += 1
     return counter
-print("Number of lines:", count_lines(r"C:\Users\serik\Desktop\myFile.docx"))
+print("Number of lines:", count_lines(r"C:/Users/serik/Desktop/PP2/lab6/builtin-functions/file1.py"))
